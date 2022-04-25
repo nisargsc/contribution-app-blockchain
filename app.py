@@ -85,9 +85,9 @@ def donations():
         'message': ''
     }
 
-    fund_id = request.args.get('fund-id')
+    fund_id = request.args.get('fund_id')
     if fund_id is None:
-        resp_json['message'] = "Error: no 'fund-id' in req params"
+        resp_json['message'] = "Error: no 'fund_id' in req params"
         return resp_json, 400
     else:
         fund = state.funds[fund_id]
@@ -102,9 +102,9 @@ def new_donations():
         'message': ''
     }
 
-    fund_id = request.args.get('fund-id')
+    fund_id = request.args.get('fund_id')
     if fund_id is None:
-        resp_json['message'] = "Error: no 'fund-id' in req params"
+        resp_json['message'] = "Error: no 'fund_id' in req params"
         return resp_json, 400
     else:
         values = request.get_json()

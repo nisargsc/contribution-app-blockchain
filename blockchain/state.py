@@ -47,7 +47,7 @@ class State():
         :return: <dict> python dictionary for the current fund details
         """
         state_dict = {
-            'fund-id-list' : self.fund_id_list,
+            'fund_id_list' : self.fund_id_list,
             'funds' : self.funds_dict
         }
         return state_dict
