@@ -4,12 +4,12 @@ import json
 from state import State
 
 class Block():
-    def __init__(self, prev_hash=None):
+    def __init__(self, num=0, prev_hash=None, funds_dict={}):
         """
-        :param state: <State> state of the blockchain 
         :param prev_hash: <str> Hash of the previous block
         :return: None
         """
+        self.num = num
         self.timestamp = datetime.datetime.now()
         self.nonce = 0
         self.state = State()
@@ -30,7 +30,7 @@ class Block():
         :return: <str> hash of the current block
         """
         hash = hashlib.sha256()
-        block_string = f"{str(self.timestamp)}{self.state.dict()}{self.prev_hash}{self.nonce}"
+        block_string = f"{self.num}{str(self.timestamp)}{self.state}{self.prev_hash}{self.nonce}"
         hash.update(block_string.encode('utf-8'))
         return hash.hexdigest()
 
@@ -46,6 +46,7 @@ class Block():
         :return: <dict> python dictionary for the current block details
         """
         block_dict = {
+            'num' : self.num,
             'timestamp' : str(self.timestamp),
             'state' : self.state.dict(),
             'prev_hash' : self.prev_hash,

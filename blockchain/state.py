@@ -18,6 +18,8 @@ class State():
         if f_id not in self.funds_dict:
             self.funds_dict[f_id] = f_dict[f_id]
         
+        # print("in state add_fund funds_dict: ", self.funds_dict)
+        
         self.update_fund_id_list()
     
     def add_donation(self, amount, fund_id):
@@ -28,7 +30,11 @@ class State():
         self.update_fund_id_list()
     
     def update_fund_id_list(self):
-        self.fund_id_list = list(self.funds.keys())
+        # print('in fund list')
+        for key in list(self.funds_dict.keys()):
+            if key not in self.fund_id_list:
+                # print(f'appending {key}')
+                self.fund_id_list.append(key)
 
 
     def dict(self):
