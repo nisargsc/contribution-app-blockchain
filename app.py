@@ -64,7 +64,7 @@ def new_funds():
     if (not isinstance(description, str)) or description.isnumeric():
         resp_json['message'] = "Error: description must be a non-numeric string"
         return resp_json, 400
-
+    
     resp_json = {
         'title' : title,
         'description' : description
