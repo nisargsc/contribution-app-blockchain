@@ -1,4 +1,5 @@
 import json
+import copy
 from blockchain.funds import Fund
 # from funds import Fund
 
@@ -10,9 +11,9 @@ class State():
             self.funds = {}
             self.fund_id_list = []
         else:
-            self.funds_dict = prev_state.funds_dict.copy()
-            self.funds = prev_state.funds.copy()
-            self.fund_id_list = prev_state.fund_id_list.copy()
+            self.funds_dict = copy.deepcopy(prev_state.funds_dict)
+            self.funds = copy.deepcopy(prev_state.funds)
+            self.fund_id_list = copy.deepcopy(prev_state.fund_id_list)
 
     def add_fund(self, title, description):
         f = Fund(title, description)

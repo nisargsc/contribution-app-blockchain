@@ -6,8 +6,9 @@ name = "pypi"
 [packages]
 flask = "==2.1.1"
 requests = "==2.27.1"
+gunicorn = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.8"
+python_version = ">=3.8"
