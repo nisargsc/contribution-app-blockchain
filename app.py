@@ -43,8 +43,11 @@ def funds():
     else:
         fund = state.funds[id]
         resp_json = {
-            'id' : id,
-            'fund' : fund.dict()
+            'fund' :{
+                'title' : fund.title,
+                'description' : fund.description,
+                'donations' : fund.donations
+            }
         }
         return resp_json, 200
 
