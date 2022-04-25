@@ -1,5 +1,6 @@
 import json
-from funds import Fund
+from blockchain.funds import Fund
+# from funds import Fund
 
 class State():
     def __init__(self, prev_state = None):

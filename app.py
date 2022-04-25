@@ -16,39 +16,42 @@ def home():
 
 @app.route('/chain', methods=['GET'])
 def chain():
+    chain = blockchain.dict_chain()
     resp_json = {
-        'length' : len(blockchain.chain),
-        'chain' : blockchain.chain,
+        'length' : len(chain),
+        'chain' : chain,
     }
 
     return jsonify(resp_json), 200
 
 @app.route('/chain/state', methods=['GET'])
 def chain_state():
-    blockchain.update_state()
+    state = blockchain.get_state()
     resp_json = {
-        'state': blockchain.state 
+        'state': state.dict()
     }
     return jsonify(resp_json), 200
 
 @app.route('/funds', methods=['GET'])
 def funds():
-    resp_json = {
-        'message': ''
-    }
+    state = blockchain.get_state()
 
     id = request.args.get('id')
     if id is None:
-        resp_json['message'] = "no 'id' in req params"
+        resp_json = state.dict()
         return resp_json, 200
     else:
-        resp_json['message'] = f'given id: {id}'
+        fund = state.funds[id]
+        resp_json = {
+            'id' : id,
+            'fund' : fund.dict()
+        }
         return resp_json, 200
 
 @app.route('/funds/new', methods=['POST'])
 def new_funds():
     resp_json = {
-        'message': 'init msg'
+        'message': ''
     }
 
     values = request.get_json()
@@ -65,14 +68,19 @@ def new_funds():
         resp_json['message'] = "Error: description must be a non-numeric string"
         return resp_json, 400
     
+    blockchain.mine_block_add_fund(title,description)
+    state = blockchain.get_state()
+
     resp_json = {
-        'title' : title,
-        'description' : description
+        'message' : 'new block mined, fund added, and state updated',
+        'state' : state.dict()
     }
     return resp_json, 200
 
 @app.route('/donations', methods=['GET'])
 def donations():
+    state = blockchain.get_state()
+
     resp_json = {
         'message': ''
     }
@@ -82,7 +90,10 @@ def donations():
         resp_json['message'] = "Error: no 'fund-id' in req params"
         return resp_json, 400
     else:
-        resp_json['message'] = f'given fund-id: {fund_id}'
+        fund = state.funds[fund_id]
+        resp_json = {
+            'donations' : fund.donations
+        }
         return resp_json, 200
 
 @app.route('/donations/new', methods=['POST'])
@@ -106,7 +117,14 @@ def new_donations():
                 resp_json['message'] = "Error: amount must be a positive number"
                 return resp_json, 400
             else:
-                resp_json['message'] = f"fund-id: {fund_id} | donation-amount: {amount}"
+                blockchain.mine_block_add_donation(amount, fund_id)
+                state = blockchain.get_state()
+                fund = state.funds[fund_id]
+
+                resp_json = {
+                    'message' : f'new block mined, new donation added to fund {fund_id}',
+                    'donations' : fund.donations
+                }
                 return resp_json, 200
 
 if __name__ == '__main__':

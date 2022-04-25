@@ -1,7 +1,8 @@
 import hashlib
 import datetime
 import json
-from state import State
+from blockchain.state import State
+# from state import State
 
 class Block():
     def __init__(self, num=0, prev_hash=None, prev_state = State()):
