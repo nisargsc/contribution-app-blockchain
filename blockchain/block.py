@@ -4,7 +4,7 @@ import json
 from state import State
 
 class Block():
-    def __init__(self, num=0, prev_hash=None, funds_dict={}):
+    def __init__(self, num=0, prev_hash=None, prev_state = State()):
         """
         :param prev_hash: <str> Hash of the previous block
         :return: None
@@ -12,7 +12,7 @@ class Block():
         self.num = num
         self.timestamp = datetime.datetime.now()
         self.nonce = 0
-        self.state = State()
+        self.state = State(prev_state)
         self.prev_hash = prev_hash
         self.hash = self.find_hash()
 
