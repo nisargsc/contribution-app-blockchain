@@ -1,3 +1,4 @@
+import random
 from blockchain import Blockchain
 from flask import Flask, jsonify, request
 from flask_cors import CORS
@@ -131,6 +132,43 @@ def new_donations():
                     'donations' : fund.donations
                 }
                 return jsonify(resp_json), 200
+
+
+@app.route('/zkp_y', methods=['POST'])
+def zkp_y():
+    resp_json = {
+        'message': ''
+    }
+
+    b= random.randint(0,1)
+
+    resp_json = {
+        'b' : b
+    }
+    return jsonify(resp_json), 200
+
+
+@app.route('/zkp_s', methods=['POST'])
+def zkp_s():
+    resp_json = {
+        'message': ''
+    }
+
+    
+    values = request.get_json()
+    h = values.get('h')
+    y = values.get('y')
+    r = values.get('r')
+    g = values.get('g')
+    P = values.get('P')
+    s = values.get('s')
+    print(values)
+
+
+    resp_json = {
+        's' :s  
+    }
+    return jsonify(resp_json), 200
 
 if __name__ == '__main__':
     from argparse import ArgumentParser
